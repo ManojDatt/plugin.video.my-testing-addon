@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+    <category label="10000">
+
+    </category>
+    <category label="10001">
+
+    </category>
+
+    <category label="10002">
+
+    </category>
+
+    <category label="10003">
+
+    </category>
+
+</settings>
+#You need to supply at least one category element.
+#The label attribute of both categories and settings should be the id of a language string in your language files
