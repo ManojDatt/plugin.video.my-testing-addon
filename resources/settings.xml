@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
     <category label="10000">
-
+      <setting id="autoplay" type="bool" label="10004" default="true"/>
+      <setting id="favoratevideo" type="bool" label="10005" default="true"/>
+      <setting id="playername" type="text" label="10006" default="" enable="eq(-1,true) | eq(-2,true)"/>
     </category>
-    <category label="10001">
 
+    <category label="10001">
+      <setting id="remote_url_show" type="bool" label="10007" default="false"/>
+      <setting id="delay_time" type="number" label="10008" default="1"/>
+      <setting id="secure_network" type="bool" label="10009" default="true"/>
+      <!-- <setting id="testingpass" type="text" label="30007" default="" enable="eq(-2,true) | eq(-3,true)" option="hidden"/> -->
     </category>
 
     <category label="10002">
-
+      <setting id="select_video" type="select" label="100010" default="auto" values="auto | 144P | 240P | 360P | 480P | 720P | 1020P"/>
+      <setting id="video_time_out" type="slider" id="video" label="100011" default="10" range="5,10,15,20" option="int" />
+      <setting id="select_video" type="enum" label="100010" default="auto" lvalues="100|101|102|103"/>
     </category>
 
     <category label="10003">
-
+      <setting id="subscribedUser" type="bool" label="100013" default="true"/>
+      <setting id="block_unsubscribed_user" type="bool" label="100013" default="true"/>
+      <setting id="activation_code" type="text" label="100015" enable="eq(-1,true) | eq(-2,true)"/>
+      <setting id="validate_subscription" type="action" label="100016" default="" enable="eq(-1,true) | eq(-2,true)" action="RunScript()"/>
     </category>
 
 </settings>

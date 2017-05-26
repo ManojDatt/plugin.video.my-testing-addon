@@ -28,6 +28,7 @@ msgstr ""
 msgctxt "#10002"
 msgid "Video"
 msgstr ""
+
 msgctxt "#10003"
 msgid "Permission"
 msgstr ""
@@ -73,4 +74,35 @@ msgstr ""
 
 msgctxt "#100012"
 msgid "Order by videos"
+msgstr ""
+
+msgtxt "#100"
+msgstr "Today"
+
+msgtxt "#101"
+msgstr "Last 3 days"
+
+msgtxt "#102"
+msgstr "Last Week"
+
+msgtxt "#103"
+msgstr "Last Month"
+
+# Permision Configuration
+
+msgctxt "#100013"
+msgid "Only subscribed user"
+msgstr ""
+
+msgctxt "#100014"
+msgid "Block unsubscribed user"
+msgstr ""
+
+
+msgctxt "#100015"
+msgid "Enter subscription code here"
+msgstr ""
+
+msgctxt "#100016"
+msgid "Click To Verify Code"
 msgstr ""
