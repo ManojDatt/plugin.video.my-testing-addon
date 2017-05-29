@@ -4,6 +4,7 @@
       <setting id="autoplay" type="bool" label="30004" default="true"/>
       <setting id="favoratevideo" type="bool" label="30005" default="true"/>
       <setting id="playername" type="text" label="30006" default="" enable="eq(-1,true) | eq(-2,true)"/>
+      <setting id="playerpass" type="text" label="32006" default="" enable="eq(-1,true) | eq(-2,true)"/>
     </category>
 
     <category label="30001">
@@ -22,6 +23,7 @@
       <setting id="subscribedUser" type="bool" label="32003" default="true"/>
       <setting id="block_unsubscribed_user" type="bool" label="32004" default="true"/>
       <setting id="activation_code" type="text" label="32005" enable="eq(-1,true) | eq(-2,true)"/>
+
     </category>
 
 </settings>

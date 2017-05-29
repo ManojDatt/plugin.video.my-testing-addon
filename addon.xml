@@ -10,6 +10,7 @@
 
 	<extension point="xbmc.addon.metadata">
 		<summary lang="en_US">Demo Addon</summary>
+
 		<summary lang="hi"> </summary>
 
 		<description lang="en">This is a testing kodi add-on.</description>
