@@ -193,7 +193,7 @@ def router(paramstring):
     else:
         dialog = xbmcgui.Dialog()
         dialog.ok("Setting", "Please enter your trial account username: MYUSER, and password: PASSWORD in general setting tab.")
-        pass
+        ADDON.OpenSettings("login.required")
 
 if __name__ == '__main__':
     # Call the router function and pass the plugin call parameters to it.
