@@ -1,0 +1,5 @@
+[B]1.0.1[/B]
+-setting location
+
+[B]1.0.0[/B]
+-fanart for list backgroud updated
