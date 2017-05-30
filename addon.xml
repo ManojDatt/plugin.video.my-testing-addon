@@ -31,4 +31,10 @@
 			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
 		</assets>
 	</extension>
+
+	<extension point="xbmc.addon.repository" name="Demo Addon Repository">
+    <info>https://github.com/ManojDatt/plugin.video.my-testing-addon/blob/master/LICENSE.txt</info>
+    <checksum>https://github.com/ManojDatt/plugin.video.my-testing-addon/blob/master/addons.xml.md5</checksum>
+    <datadir>https://github.com/ManojDatt/plugin.video.my-testing-addon</datadir>
+  </extension>
 </addon>
