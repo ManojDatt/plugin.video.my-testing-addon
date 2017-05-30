@@ -4,7 +4,7 @@
       <setting id="autoplay" type="bool" label="30004" default="true"/>
       <setting id="favoratevideo" type="bool" label="30005" default="true"/>
       <setting id="playername" type="text" label="30006" default="" enable="eq(-1,true) | eq(-2,true)"/>
-      <setting id="playerpass" type="text" label="32006" default="" enable="eq(-1,true) | eq(-2,true)"/>
+      <setting id="playerpass" type="text" default="" enable="eq(-2,true) | eq(-3,true)"/>
     </category>
 
     <category label="30001">
@@ -14,7 +14,7 @@
     </category>
 
     <category label="30002">
-      <setting id="select_video" type="select" label="32000" default="480P" values="auto|144P|240P|360P|480P|720P|1020P"/>
+      <setting id="select_video" type="select" label="32000" default="auto" values="auto|144P|240P|360P|480P|720P|1020P"/>
       <setting id="video_time_out" type="slider"  label="32001" default="10" range="5,5,20" option="int" />
       <setting id="select_video" type="enum" label="32002" default="100" values="100|200|250|300"/>
     </category>

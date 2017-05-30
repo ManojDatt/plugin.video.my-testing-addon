@@ -47,10 +47,6 @@ msgctxt "#30006"
 msgid "Enter Player name"
 msgstr ""
 
-msgctxt '#32006'
-msgid "Enter player password"
-msgstr ""
-
 # Network configuration
 
 msgctxt "#30007"
@@ -93,4 +89,8 @@ msgstr ""
 
 msgctxt "#32005"
 msgid "Enter subscription code here"
+msgstr ""
+
+msgctxt '#32006'
+msgid "Enter player password"
 msgstr ""

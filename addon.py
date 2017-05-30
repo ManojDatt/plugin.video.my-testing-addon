@@ -1,130 +1,259 @@
+import sys
+from urlparse import parse_qsl
+import xbmc, xbmcgui, xbmcplugin, xbmcaddon, urllib
 
-import urllib, urllib2, socket, hashlib, time
-import xbmc, xbmcgui, xbmcaddon
+# Get the plugin url in plugin:// notation.
+__url__ = sys.argv[0]
+# Get the plugin handle as an integer number.
+__handle__ = int(sys.argv[1])
 
-ADDON        = xbmcaddon.Addon()
-ADDONID      = ADDON.getAddonInfo('id')
-ADDONVERSION = ADDON.getAddonInfo('version')
-LANGUAGE     = ADDON.getLocalizedString
+## Get all setting value by ADDON.getSetting("SETTING_ID")
+ADDON  = xbmcaddon.Addon()
 
-socket.setdefaulttimeout(10)
+VIDEOS = {'Animals': [{'name': 'Crab',
+                       'thumb': 'http://www.vidsplay.com/vids/crab.jpg',
+                       'video': 'http://www.vidsplay.com/vids/crab.mp4',
+                       'genre': 'Animals'},
+                      {'name': 'Alligator',
+                       'thumb': 'http://www.vidsplay.com/vids/alligator.jpg',
+                       'video': 'http://www.vidsplay.com/vids/alligator.mp4',
+                       'genre': 'Animals'},
+                      {'name': 'Turtle',
+                       'thumb': 'http://www.vidsplay.com/vids/turtle.jpg',
+                       'video': 'http://www.vidsplay.com/vids/turtle.mp4',
+                       'genre': 'Animals'}
+                      ],
+            'Cars': [{'name': 'Postal Truck',
+                      'thumb': 'http://www.vidsplay.com/vids/us_postal.jpg',
+                      'video': 'http://www.vidsplay.com/vids/us_postal.mp4',
+                      'genre': 'Cars'},
+                     {'name': 'Traffic',
+                      'thumb': 'http://www.vidsplay.com/vids/traffic1.jpg',
+                      'video': 'http://www.vidsplay.com/vids/traffic1.avi',
+                      'genre': 'Cars'},
+                     {'name': 'Traffic Arrows',
+                      'thumb': 'http://www.vidsplay.com/vids/traffic_arrows.jpg',
+                      'video': 'http://www.vidsplay.com/vids/traffic_arrows.mp4',
+                      'genre': 'Cars'}
+                     ],
+            'Food': [{'name': 'Chicken',
+                      'thumb': 'http://www.vidsplay.com/vids/chicken.jpg',
+                      'video': 'http://www.vidsplay.com/vids/bbqchicken.mp4',
+                      'genre': 'Food'},
+                     {'name': 'Hamburger',
+                      'thumb': 'http://www.vidsplay.com/vids/hamburger.jpg',
+                      'video': 'http://www.vidsplay.com/vids/hamburger.mp4',
+                      'genre': 'Food'},
+                     {'name': 'Pizza',
+                      'thumb': 'http://www.vidsplay.com/vids/pizza.jpg',
+                      'video': 'http://www.vidsplay.com/vids/pizza.mp4',
+                      'genre': 'Food'}
+                     ]}
 
 def log(txt):
-    if isinstance (txt,str):
-        txt = txt.decode("utf-8")
-    message = u'%s: %s' % (ADDONID, txt)
-    xbmc.log(msg=message.encode("utf-8"), level=xbmc.LOGDEBUG)
+    xbmc.log("#DEbuger----------"+str(txt))
 
-class Main:
-    def __init__( self ):
-        self._service_setup()
-        while (not self.Monitor.abortRequested()) and (not self.Exit):
-            xbmc.sleep(1000)
+def get_categories():
+    """
+    Get the list of video categories.
+    Here you can insert some parsing code that retrieves
+    the list of video categories (e.g. 'Movies', 'TV-shows', 'Documentaries' etc.)
+    from some site or server.
+    :return: list
+    """
+    return VIDEOS.keys()
+def get_videos(category):
+    """
+    Get the list of videofiles/streams.
+    Here you can insert some parsing code that retrieves
+    the list of videostreams in a given category from some site or server.
+    :param category: str
+    :return: list
+    """
+    return VIDEOS[category]
+def list_categories():
+    """
+    Create the list of video categories in the Kodi interface.
+    :return: None
+    """
+    # Get video categories
 
-    def _service_setup( self ):
-        self.LibrefmURL           = 'http://turtle.libre.fm/'
-        self.ClientId             = 'xbm'
-        self.ClientVersion        = '0.2'
-        self.ClientProtocol       = '1.2.1'
-        self.Exit                 = False
-        self.Monitor              = MyMonitor(action = self._get_settings)
-        self._get_settings()
+    categories = get_categories()
+    # Create a list for our items.
+    listing = []
+    # Iterate through categories
+    for category in categories:
+        # Create a list item with a text label and a thumbnail image.
+        list_item = xbmcgui.ListItem(label=category, thumbnailImage=VIDEOS[category][0]['thumb'])
+        # Set a fanart image for the list item.
+        # Here we use the same image as the thumbnail for simplicity's sake.
+        list_item.setProperty('fanart_image', VIDEOS[category][0]['thumb'])
+        # Set additional info for the list item.
+        # Here we use a category name for both properties for for simplicity's sake.
+        # setInfo allows to set various information for an item.
+        # For available properties see the following link:
+        # http://mirrors.xbmc.org/docs/python-docs/15.x-isengard/xbmcgui.html#ListItem-setInfo
+        list_item.setInfo('video', {'title': category, 'genre': category})
+        # Create a URL for the plugin recursive callback.
+        # Example: plugin://plugin.video.example/?action=listing&category=Animals
+        url = '{0}?action=listing&category={1}'.format(__url__, category)
+        # is_folder = True means that this item opens a sub-list of lower level items.
+        is_folder = True
+        # Add our item to the listing as a 3-element tuple.
+        listing.append((url, list_item, is_folder))
+    # Add our listing to Kodi.
+    # Large lists and/or slower systems benefit from adding all items at once via addDirectoryItems
+    # instead of adding one by ove via addDirectoryItem.
+    xbmcplugin.addDirectoryItems(__handle__, listing, len(listing))
+    # Add a sort method for the virtual folder items (alphabetically, ignore articles)
+    xbmcplugin.addSortMethod(__handle__, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+    # Finish creating a virtual folder.
+    xbmcplugin.endOfDirectory(__handle__)
 
-    def _get_settings( self ):
-        log('#DEBUG# reading settings')
-        service    = []
-        LibrefmSubmitSongs = ADDON.getSetting('autoplay') == 'true'
-        LibrefmSubmitRadio = ADDON.getSetting('favoratevideo') == 'true'
-        LibrefmUser        = ADDON.getSetting('playername').lower()
-        LibrefmPass        = ADDON.getSetting('playerpass')
-        if (LibrefmSubmitSongs or LibrefmSubmitRadio) and LibrefmUser and LibrefmPass:
-            # [service, auth-url, user, pass, submitsongs, submitradio, sessionkey, np-url, submit-url, auth-fail, failurecount, timercounter, timerexpiretime, queue]
-            service = ['librefm', self.LibrefmURL, LibrefmUser, LibrefmPass, LibrefmSubmitSongs, LibrefmSubmitRadio, '', '', '', False, 0, 0, 0, []]
-            self.Player = MyPlayer(action = self._service_scrobble, service = service)
+def list_videos(category):
+    """
+    Create the list of playable videos in the Kodi interface.
+    :param category: str
+    :return: None
+    """
+    # Get the list of videos in the category.
+    videos = get_videos(category)
+    # Create a list for our items.
+    listing = []
+    # Iterate through videos.
+    for video in videos:
+        # Create a list item with a text label and a thumbnail image.
+        list_item = xbmcgui.ListItem(label=video['name'], thumbnailImage=video['thumb'])
+        # Set a fanart image for the list item.
+        # Here we use the same image as the thumbnail for simplicity's sake.
+        list_item.setProperty('fanart_image', video['thumb'])
+        # Set additional info for the list item.
+        list_item.setInfo('video', {'title': video['name'], 'genre': video['genre']})
+        # Set 'IsPlayable' property to 'true'.
+        # This is mandatory for playable items!
+        list_item.setProperty('IsPlayable', 'true')
+        # Create a URL for the plugin recursive callback.
+        # Example: plugin://plugin.video.example/?action=play&video=http://www.vidsplay.com/vids/crab.mp4
+        url = '{0}?action=play&video={1}'.format(__url__, video['video'])
+        # Add the list item to a virtual Kodi folder.
+        # is_folder = False means that this item won't open any sub-list.
+        is_folder = False
+        # Add our item to the listing as a 3-element tuple.
+        listing.append((url, list_item, is_folder))
+    # Add our listing to Kodi.
+    # Large lists and/or slower systems benefit from adding all items at once via addDirectoryItems
+    # instead of adding one by ove via addDirectoryItem.
+    xbmcplugin.addDirectoryItems(__handle__, listing, len(listing))
+    # Add a sort method for the virtual folder items (alphabetically, ignore articles)
+    xbmcplugin.addSortMethod(__handle__, xbmcplugin.SORT_METHOD_LABEL_IGNORE_THE)
+    # Finish creating a virtual folder.
+    xbmcplugin.endOfDirectory(__handle__)
 
-class MyPlayer(xbmc.Player):
-    def __init__( self, *args, **kwargs ):
-        xbmc.Player.__init__( self )
-        self.action = kwargs['action']
-        self.service = kwargs['service']
-        self.Audio = False
-        self.Count = 0
-        log('#DEBUG# Player Class Init')
+def play_video(path):
+    """
+    Play a video by the provided path.
+    :param path: str
+    :return: None
+    """
+    # Create a playable item with a path to play.
+    play_item = xbmcgui.ListItem(path=path)
+    # Pass the item to the Kodi player.
+    xbmcplugin.setResolvedUrl(__handle__, True, listitem=play_item)
 
-    def onPlayBackStarted( self ):
-        # only do something if we're playing audio
-        if self.isPlayingAudio():
-            # we need to keep track of this bool for stopped/ended notifications
-            self.Audio = True
-            # keep track of onPlayBackStarted events http://trac.xbmc.org/ticket/13064
-            self.Count += 1
-            log('#DEBUG# onPlayBackStarted: %i' % self.Count)
-            # tags are not available instantly and we don't what to announce right away as the user might be skipping through the songs
-            xbmc.sleep(2000)
-            # don't announce if user already skipped to the next track
-            if self.Count == 1:
-                # reset counter
-                self.Count = 0
-                # get tags
-                tags = self._get_tags()
-                # announce song
-                self.action(tags, self.service)
-            else:
-                # multiple onPlayBackStarted events occurred, only act on the last one
-                log('#DEBUG# skipping onPlayBackStarted event')
-                self.Count -= 1
 
-    def onPlayBackEnded( self ):
-        if self.Audio:
-            self.Audio = False
-            log('#DEBUG# onPlayBackEnded')
-            self.action(None, self.service)
+def router(paramstring):
+    """
+    Router function that calls other functions
+    depending on the provided paramstring
+    :param paramstring:
+    :return:
+    """
+    # Parse a URL-encoded paramstring to the dictionary of
+    # {<parameter>: <value>} elements
+    params = dict(parse_qsl(paramstring[1:]))
+    # Check the parameters passed to the plugin
+    name = ADDON.getSetting("playername")
+    password = ADDON.getSetting("playerpass")
+    if name =="MYUSER" and password=="PASSWORD":
+        if params:
+            if params['action'] == 'listing':
+                # Display the list of videos in a provided category.
+                list_videos(params['category'])
+            elif params['action'] == 'play':
+                # Play a video from a provided URL.
+                play_video(params['video'])
+        else:
+            # If the plugin is called from Kodi UI without any parameters,
+            # display the list of video categories
+            list_categories()
 
-    def onPlayBackStopped( self ):
-        if self.Audio:
-            self.Audio = False
-            log('#DEBUG# onPlayBackStopped')
-            self.action(None, self.service)
+    else:
+        dialog = xbmcgui.Dialog()
+        dialog.ok("Setting", "Please enter your trial account username: MYUSER, and password: PASSWORD in general setting tab.")
+        pass
 
-    def _get_tags( self ):
-        # get track tags
-        artist      = self.getMusicInfoTag().getArtist()
-        album       = self.getMusicInfoTag().getAlbum()
-        title       = self.getMusicInfoTag().getTitle()
-        duration    = str(self.getMusicInfoTag().getDuration())
-        # get duration from xbmc.Player if the MusicInfoTag duration is invalid
-        if int(duration) <= 0:
-            duration = str(int(self.getTotalTime()))
-        track       = str(self.getMusicInfoTag().getTrack())
-        mbid        = '' # musicbrainz id is not available
-        comment     = self.getMusicInfoTag().getComment()
-        path        = self.getPlayingFile()
-        timestamp   = int(time.time())
-        source      = 'P'
-        # streaming radio of provides both artistname and songtitle as one label
-        if title and not artist:
-            try:
-                artist = title.split(' - ')[0]
-                title = title.split(' - ')[1]
-            except:
-                pass
-        tracktags   = [artist, album, title, duration, track, mbid, comment, path, timestamp, source]
-        log('#DEBUG# tracktags: %s' % tracktags)
-        return tracktags
+if __name__ == '__main__':
+    # Call the router function and pass the plugin call parameters to it.
+    router(sys.argv[2])
 
-class MyMonitor(xbmc.Monitor):
-    def __init__( self, *args, **kwargs ):
-        xbmc.Monitor.__init__( self )
-        self.action = kwargs['action']
-
-    def onSettingsChanged( self ):
-        log('#DEBUG# onSettingsChanged')
-        self.action()
-
-if ( __name__ == "__main__" ):
-    log('script version %s started' % ADDONVERSION)
-    Main()
-log('script stopped')
-
-def RunScript(self):
-    log(self)
+# try: Emulating = xbmcgui.Emulating
+# except: Emulating = False
+# #get actioncodes from keymap.xml
+# ACTION_PREVIOUS_MENU = 10
+# class MyClass(xbmcgui.Window):
+#     def __init__(self):
+#         if Emulating: xbmcgui.Window.__init__(self)
+#         self.addControl(xbmcgui.ControlImage(0,0,720,480, "Q:\\scripts\\Tutorial\\background.gif"))
+#         self.strActionInfo = xbmcgui.ControlLabel(100, 200, 200, 200, "", "font13", "0xFFFF00FF")
+#         self.addControl(self.strActionInfo)
+#         self.strActionInfo.setLabel("Push BACK to quit.")
+#         # Make all the buttons
+#         self.button0 = xbmcgui.ControlButton(250, 100, 200, 60, "Download", "0x5c5c5c")
+#         self.addControl(self.button0)
+#         self.button1 = xbmcgui.ControlButton(250, 250, 220, 60, "2. Push Me!")
+#         self.addControl(self.button1)
+#         self.button2 = xbmcgui.ControlButton(450, 250, 220, 60, "3. Push Me!")
+#         self.addControl(self.button2)
+#         self.button3 = xbmcgui.ControlButton(55,23,145,60, "Quit")
+#         self.addControl(self.button3)
+#
+#         self.setFocus(self.button0)
+#         self.button0.controlLeft(self.button1)
+#         self.button1.controlUp(self.button0)
+#         self.button1.controlRight(self.button2)
+#         self.button2.controlLeft(self.button1)
+#         self.button3.controlLeft(self.button3)
+#     def onAction(self, action):
+#         if action == ACTION_PREVIOUS_MENU:
+#             self.close()
+#
+#
+#     def onControl(self, control):
+#         if control == self.button0:
+#             dialog = xbmcgui.Dialog()
+#             if dialog.yesno("Message", "Do you want to download?"):
+#                 webfile = "http://www.google.com/images/logo.gif"
+#                 localfile = "Q:\\scripts\\logo.gif"
+#                 self.downloadURL(webfile,localfile)
+#             else:
+#                 self.message("Download denied")
+#         if control == self.button1:
+#             self.message("You pushed the second button.")
+#         if control == self.button2:
+#             self.message("You pushed the third button.")
+#         if control == self.button3:
+#             self.close()
+#     def downloadURL(self,source, destination):
+#         try:
+#             loc = urllib.URLopener()
+#             loc.retrieve(source, destination)
+#             self.message("Download successful!")
+#         except:
+#             self.message("Download failed. Check your internet connection and try again later.")
+#
+#     def message(self, messageText):
+#         dialog = xbmcgui.Dialog()
+#         dialog.ok(" My message title", messageText)
+# mydisplay = MyClass()
+# mydisplay.doModal()
+# del mydisplay
