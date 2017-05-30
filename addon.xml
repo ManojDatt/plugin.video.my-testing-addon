@@ -23,5 +23,12 @@
 		<website></website>
 		<email>manojdatt1it@gmail.com</email>
 		<source>https://github.com/ManojDatt/plugin.video.my-testing-addon.git</source>
+		<assets>
+			<icon>resources/data/icon.png</icon>
+			<fanart>resources/data/fanart.jpg</fanart>
+			<screenshot>resources/screenshots/screenshot-01.jpg</screenshot>
+			<screenshot>resources/screenshots/screenshot-02.jpg</screenshot>
+			<screenshot>resources/screenshots/screenshot-03.jpg</screenshot>
+		</assets>
 	</extension>
 </addon>

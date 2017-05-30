@@ -1,4 +1,4 @@
-import sys
+import os, sys
 from urlparse import parse_qsl
 import xbmc, xbmcgui, xbmcplugin, xbmcaddon, urllib
 
@@ -6,7 +6,9 @@ import xbmc, xbmcgui, xbmcplugin, xbmcaddon, urllib
 __url__ = sys.argv[0]
 # Get the plugin handle as an integer number.
 __handle__ = int(sys.argv[1])
-
+_addon_ = xbmcaddon.Addon('plugin.video.my-testing-addon')
+home = _addon_.getAddonInfo('path')
+fanart = xbmc.translatePath( os.path.join( home, 'resources/data/fanart.jpg' ) )
 ## Get all setting value by ADDON.getSetting("SETTING_ID")
 ADDON  = xbmcaddon.Addon()
 
@@ -87,7 +89,8 @@ def list_categories():
         list_item = xbmcgui.ListItem(label=category, thumbnailImage=VIDEOS[category][0]['thumb'])
         # Set a fanart image for the list item.
         # Here we use the same image as the thumbnail for simplicity's sake.
-        list_item.setProperty('fanart_image', VIDEOS[category][0]['thumb'])
+        # list_item.setProperty('fanart_image', VIDEOS[category][0]['thumb'])
+        list_item.setProperty('fanart_image', fanart)
         # Set additional info for the list item.
         # Here we use a category name for both properties for for simplicity's sake.
         # setInfo allows to set various information for an item.

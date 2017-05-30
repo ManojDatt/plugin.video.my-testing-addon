@@ -47,50 +47,110 @@ msgctxt "#30006"
 msgid "Enter Player name"
 msgstr ""
 
+msgctxt "#30007"
+msgid "Enter Player password"
+msgstr ""
+
 # Network configuration
 
-msgctxt "#30007"
+msgctxt "#30008"
 msgid "Allow remote url show before play video"
 msgstr ""
 
-msgctxt "#30008"
+msgctxt "#30009"
 msgid "Enter delay to play next video"
 msgstr ""
 
-msgctxt "#30009"
+msgctxt "#300010"
 msgid "Allow only secure network permission"
 msgstr ""
 
 
 #Video Configuration
 
-msgctxt "#32000"
+msgctxt "#300011"
 msgid "Select video quality to play"
 msgstr ""
 
-msgctxt "#32001"
+msgctxt "#300012"
 msgid "Set video time out"
 msgstr ""
 
-msgctxt "#32002"
+msgctxt "#300013"
 msgid "Order by videos"
 msgstr ""
 
 # Permision Configuration
 
-msgctxt "#32003"
+msgctxt "#300014"
 msgid "Only subscribed user"
 msgstr ""
 
-msgctxt "#32004"
+msgctxt "#300015"
 msgid "Block unsubscribed user"
 msgstr ""
 
 
-msgctxt "#32005"
+msgctxt "#300016"
 msgid "Enter subscription code here"
 msgstr ""
 
-msgctxt '#32006'
-msgid "Enter player password"
+msgctxt "#300017"
+msgid "General Setting"
+msgstr ""
+
+msgctxt "#300018"
+msgid "Authentication"
+msgstr ""
+
+msgctxt "#300019"
+msgid "Authentication Required"
+msgstr ""
+
+msgctxt "#32000"
+msgid "140P"
+msgstr "140P"
+
+msgctxt "#32001"
+msgid "auto"
+msgstr "240P"
+
+msgctxt "#32002"
+msgid "420P"
+msgstr "420P"
+
+msgctxt "#32003"
+msgid "720P"
+msgstr "720P"
+
+msgctxt "#32004"
+msgid "1020P"
+msgstr "1020P"
+
+msgctxt "#33000"
+msgid "Latest"
+msgstr ""
+
+msgctxt "#33001"
+msgid "Most Viewed"
+msgstr ""
+
+msgctxt "#33002"
+msgid "Least Viewed"
+msgstr ""
+
+msgctxt "#33003"
+msgid "Today"
+msgstr ""
+
+msgctxt "#33004"
+msgid "This week"
+msgstr ""
+
+msgctxt "#33005"
+msgid "This Month"
+msgstr ""
+
+msgctxt "#33006"
+msgid "This year"
 msgstr ""

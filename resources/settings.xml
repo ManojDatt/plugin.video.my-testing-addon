@@ -1,28 +1,31 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <settings>
     <category label="30000">
+      <setting label="300017" type="lsep"/>
       <setting id="autoplay" type="bool" label="30004" default="true"/>
       <setting id="favoratevideo" type="bool" label="30005" default="true"/>
-      <setting id="playername" type="text" label="30006" default="" enable="eq(-1,true) | eq(-2,true)"/>
-      <setting id="playerpass" type="text" default="" enable="eq(-2,true) | eq(-3,true)"/>
+      <setting label="300018" type="lsep"/>
+      <setting id="login.required" type="bool" label="300019" default="false" />
+      <setting id="playername" type="text" label="30006" default="" enable="eq(-1,true)"/>
+      <setting id="playerpass" type="text" label="30007" default="" enable="eq(-2,true)"/>
     </category>
 
     <category label="30001">
-      <setting id="remote_url_show" type="bool" label="30007" default="false"/>
-      <setting id="delay_time" type="number" label="30008" default="1"/>
-      <setting id="secure_network" type="bool" label="30009" default="true"/>
+      <setting id="remote_url_show" type="bool" label="30008" default="false"/>
+      <setting id="delay_time" type="number" label="30009" default="1"/>
+      <setting id="secure_network" type="bool" label="300010" default="true"/>
     </category>
 
     <category label="30002">
-      <setting id="select_video" type="select" label="32000" default="auto" values="auto|144P|240P|360P|480P|720P|1020P"/>
-      <setting id="video_time_out" type="slider"  label="32001" default="10" range="5,5,20" option="int" />
-      <setting id="select_video" type="enum" label="32002" default="100" values="100|200|250|300"/>
+      <setting id="select_video" type="select" label="300011" default="32001" lvalues="32001|32000|32002|32003|32004"/>
+      <setting id="video_time_out" type="slider"  label="300012" default="10" range="5,5,20" option="int" />
+      <setting id="select_video" type="enum" label="300013" default="33001" lvalues="33001|33000|33002|33003|33004|33005|33006"/>
     </category>
 
     <category label="30003">
-      <setting id="subscribedUser" type="bool" label="32003" default="true"/>
-      <setting id="block_unsubscribed_user" type="bool" label="32004" default="true"/>
-      <setting id="activation_code" type="text" label="32005" enable="eq(-1,true) | eq(-2,true)"/>
+      <setting id="block_unsubscribed_user" type="bool" label="300015" default="true"/>
+      <setting id="subscribedUser" type="bool" label="300014" default="true"/>
+      <setting id="activation_code" type="text" label="300016" enable="eq(-1,true)"/>
 
     </category>
 
